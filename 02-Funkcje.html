@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Funkcje</title>
+		<script type="text/javascript">
+			/* Literał funkcji jako deklaracja funkcji */
+			function add(num1, num2) {
+				return num1 + num2;
+			}
+			/* Literał funkcji jako wyrażenie funkcyjne */
+			var add = function(num1, num2) {
+				return num1 + num2;
+			};
+		</script>
+		<script type="text/javascript">
+			/* Deklaracja funkcji jest niejawnie przenoszona na początek kontekstu, tzw. hoisting */
+			var result = add1(5, 5);
+			function add1(num1, num2) {
+				return num1 + num2;
+			}
+			/* Wyrażenia funkcyjne nie mogą być przenoszone ponieważ referencje do nich są przechowywane w zmiennej */
+			//var result = add2(5, 5); // błąd
+			var add2 = function(num1, num2) {
+				return num1 + num2;
+			}
+		</script>
+		<script type="text/javascript">
+			/* Funkcje jako wartości. Ponieważ funkcje są obiektami, można je traktować jak każde inne obiekty. Można je przypisywać do zmiennych, umieszczać w obiektach, przekazywać do innych funkcji jako argumenty, a także zwracać z funkcji */
+			function sayHi() { console.log("Cześć!"); }
+			sayHi();			// wyświetla "Cześć!"
+			var sayHi1 = sayHi;
+			sayHi1();			// wyświetla "Cześć!"
+			var sayHi2 = new Function("console.log('Cześć!');");
+			sayHi2();			// wyświetla "Cześć!"
+			var sayHi3 = sayHi2;
+			sayHi3();			// wyświetla "Cześć!"
+			// przekazanie funkcji anonimowej jako argument wywołania funkcji
+			var numbers = [ 1, 5, 8, 4, 7, 10, 2, 6 ];
+			numbers.sort(function(first, second) { return first - second; });
+			console.log(numbers);          // "[1, 2, 4, 5, 6, 7, 8, 10]"
+			numbers.sort(); 
+			console.log(numbers);          // "[1, 10, 2, 4, 5, 6, 7, 8]"
+		</script>
+		<script type="text/javascript">
+			/* Parametry. W JS możemy przekazać do każdej funkcji dowolną liczbę parametrów. Jest to możliwe dzięki temu, że parametry funkcji są przechowywane w strukturze arguments przypominającą tablicę (nie jest instancją typu Array). Liczba oczekiwanych argumentów zapisana jest we właściwości length funkcji. */
+			function reflect(value) { return value; }
+			console.log(reflect("Cześć!"));			// "Cześć!"
+			console.log(reflect("Cześć!", 25));		// "Cześć!"
+			console.log(reflect.length);			// 1
+
+			reflect = function() { return arguments[0]; };
+			console.log(reflect("Cześć!"));			// "Cześć!"
+			console.log(reflect("Cześć!", 25));		// "Cześć!"
+			console.log(reflect.length);			// 0
+
+			function sum() {
+				var result = 0, i = 0, len = arguments.length;
+				while(i < len) {
+					result += arguments[i];
+					i++;
+				}
+				return result;
+			}
+			console.log(sum(1, 2));         // 3
+			console.log(sum(3, 4, 5, 6));   // 18
+			console.log(sum(50));           // 50
+			console.log(sum());             // 0
+		</script>
+		<script type="text/javascript">
+			/* Przeciązanie metod: BRAK!!!! W JS przy próbie zdefiniowania wielu funkcji o tej samej nazwie ostatnia definicja zastępuje poprzednie. */
+			function sayMessage(message) { 
+				console.log(message);
+			}
+			function sayMessage() {
+				console.log("Domyślny komunikat");
+			}
+			sayMessage("Cześć!");			// wyświetla "Domyślny komunikat"
+			// W zrozumieniu przyczyny pomaga spojrzenie na funkcje jako na obiekty
+			var sayMessage = new Function("message", "console.log(message);");
+			sayMessage = new Function("console.log('Domyślny komunikat');");
+			sayMessage("Cześć!");			// wyświetla "Domyślny komunikat"
+
+			// Można zastosować rozwiązanie przypominające przeciążanie
+			function sayMessage1(message) {
+				if (arguments.length === 0) {
+					message = "Domyślny komunikat";
+				}
+				console.log(message);
+			}
+			sayMessage1("Cześć!");			// wyświetla "Cześć!"
+			// Zwykle zamiast sprawdzania liczby przekazanych argumentów za pomocą właściwości arguments.length porównuje się nazwy parametrów z undefined
+			function sayMessage1(message) {
+				if (message === undefined) {
+					message = "Domyślny komunikat";
+				}
+				console.log(message);
+			}
+			sayMessage1("Cześć!");			// wyświetla "Cześć!"
+		</script>
+		<script type="text/javascript">
+			/* Metody obiektów */
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

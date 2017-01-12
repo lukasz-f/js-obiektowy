@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Typy proste i referencje</title>
+		<script type="text/javascript">
+			/* 
+			- w js nie ma klas
+			- obiektowość w js bazuje na prototypach oraz funkcjach konstruktorów
+			- rozróżniamy dwa rodzaje typów danych: typy proste i referencje
+			- typy proste służą do zapisywania danych w prostej postaci, przechowują wartość
+			- typy referencyjne zapisują dane w obiektach, przechowują wskaźnik do obiektu
+			- typy proste mogą być traktowane jak referencje
+			- nie ma podziału typy proste przechowywane na stosie, a referencje na stercie
+			- typy proste: boolean, number, string, null, undefined
+			*/
+			// string
+			var name = "Nicholas";
+			var selection = "a";
+			// number
+			var count = 25;
+			var cost = 1.51;
+			// boolean
+			var found = true;
+			// null
+			var object = null;
+			// undefined
+			var flag = undefined;
+			var ref; // wartość undefined zostanie przypisana automatycznie
+		</script>
+		<script type="text/javascript">
+			/* Przypisanie wartości do zmiennej typu prostego polega na utworzeniu kopii wartości i zapisaniu jej w zmiennej */
+			// color1 i color2 mają tę samą wartość ale nie są w żaden sposób powiązane; wartości tych zmiennych są przechowywane w innych miejscach
+			var color1 = "czerwony";
+			var color2 = color1;
+			color1 = "niebieski"; // nie zmienia wartości zmiennej color2
+		</script>
+		<script type="text/javascript">
+			/* Identyfikowanie typów prostych. Najlepszym sposobem jest użycie operatora typeof. Dla wartości null zwraca wynik "object"  */
+			console.log(typeof "Nicholas");    // "string"
+			console.log(typeof 10);            // "number"
+			console.log(typeof 5.1);           // "number"
+			console.log(typeof true);          // "boolean"
+			console.log(typeof undefined);     // "undefined"
+			console.log(typeof null);          // "object"
+			console.log(object === null);       // true albo false, najlepszy sposób na sprawdzenie czy wartość to null
+		</script>
+		<script type="text/javascript">
+			/* Porównanie bez zmiany typu. Operator == porównuje wartości lecz nie typy. Operator === porównuje wartości i typy. */
+			console.log("5" == 5);            // true
+			console.log("5" === 5);           // false
+			console.log(undefined == null);   // true
+			console.log(undefined === null);  // fals
+		</script>
+		<script type="text/javascript">
+			/* Metody typów prostych. Mimo że wartości typów prostych nie są obiektami można wywoływać na nich metody. 
+				Odpowiadają za to mechanizmy JS, dzięki którym wartości te wydają się obiektami, a to podnosi spójność języka. Typy null i undefined nie posiadają metod. */
+			var name = "Nicholas";
+			var lowercaseName = name.toLowerCase();  // zamienia na małe znaki
+			var firstLetter = name.charAt(0);        // zwraca pierwszy znak
+			var middleOfName = name.substring(2, 5); // zwraca sekwencję znaków 2 - 4
+			var count = 10;
+			var fixedCount = count.toFixed(2);       // konwertuje na łańcuch "10.00"
+			var hexCount = count.toString(16);       // konwertuje na łańcuch "a"
+			var flag = true;
+			var stringFlag = flag.toString();        // konwertuje na łańcuch "true"
+		</script>
+		<script type="text/javascript">
+			/* Typy referencyjne reprezentują w JavaScripcie obiekty. Referencje to instancje typów referencyjnych, więc można je uznać za synonim obiektów.
+				Obiekt jest nieuporządkowaną listą właściwości złożonych z nazwy i wartości. W przypadku gdy wartością właściwości jest funkcja, nazywa się ją metodą.
+				Obiekty w JavaScripcie dobrze jest sobie wyobrazić jako tablice asocjacyjne [nazwa: wartość, nazwa: wartość, ...]. 
+				Istnieje kilka sposobów tworzenia obiektów. Pierwszym z nich jest użycie operatora new w połączeniu z konstruktorem obiektu. 
+				Konstruktor to funkcja, która jest używana przez operator new. W JS przyjęto konwencję rozpoczynania nazw konstruktorów wielką literą, by odróżnić je od zwykłych funkcji. */
+			var object1 = new Object();
+			// object1 i object2 przechowują kopię wskaźnika, który prowadzi do tego samego obiektu
+			var object2 = object1;
+		</script>
+		<script type="text/javascript">
+			/* Dereferencja obiektów. JS posiada mechanizm odśmiecania pamięci. Dobrym zwyczajem jest dereferencja obiektów tak aby odśmiecacz mógł‚ zwolnić pamięć. */
+			//object1 = null;
+		</script>
+		<script type="text/javascript">
+			/* Dodawanie i usuwanie właściwości */
+			object1.myCustomerProperty = "Super!";
+			console.log(object2.myCustomerProperty); // "Super!"
+		</script>
+		<script type="text/javascript">
+			/* Wbudowane typy referencyjne: Array, Date, Error, Function, Object, RegExp */
+			var items = new Array();
+			var now = new Date();
+			var error = new Error("Stało się coś złego.");
+			var func = new Function("console.log('Cześć');");
+			var object = new Object();
+			var re = new RegExp("\\d+");
+		</script>
+		<script type="text/javascript">
+			/* Literały. To składnia umożliwiająca zdefiniowanie typu referencyjnego bez tworzenia obiektu za pomocą operatora new i konstruktora */
+			// Literały obiektów
+			var book = {
+				name: "JavaScript. Zasady programowania obiektowego.",
+				year: 2014
+			};
+			var book = {
+				"name": "JavaScript. Zasady programowania obiektowego.",
+				"year": 2014
+			};
+			var book = new Object();
+			book.name = "JavaScript. Zasady programowania obiektowego.";
+			book.year = 2014;
+			// Literały tablic
+			var colors = ["czerwony", "niebieski", "zielony"];
+			console.log(colors[0]);
+			var colors = new Array("czerwony", "niebieski", "zielony");
+			console.log(colors[0]);
+			// Literały funkcji
+			function reflect(value) {
+				return value;
+			}
+			var reflect = new Function("value", "return value;");
+			// Literały wyrażeń regularnych
+			var numbers = /\d+/g;
+			var numbers = new RegExp("\\d+", "g"); // trzeba stosować znaki ucieczki; lepszy sposób gdy wyrażenie jest konstruowane dynamicznie
+		</script>
+		<script type="text/javascript">
+			/* Dostęp do właściwości. Można użyć notacji z kropką lub zapis z nawiasami klamrowymi */
+			var array = [];
+			array.push(12345);
+			array["push"](12345); // przydaje się gdy musimy dynamicznie decydować do której właściwości chcemy uzyskać dostęp
+			var method = "push";
+			array[method](12345);
+		</script>
+		<script type="text/javascript">
+			/* Identyfikowanie typów referencyjnych */
+			function reflect(value) { return value; }
+			console.log(typeof reflect);        // "function"
+			// dla pozostałych typów referencyjnych operator typeof zwraca wartość "object" ale z pomocą przychodzi operator instanceof
+			var items = [];
+			var object = {};
+			console.log(items instanceof Array);		// true
+			console.log(object instanceof Object);   	// true
+			console.log(reflect instanceof Function);	// true
+			console.log(reflect instanceof Object);		// true, wszystkie typy wbudowane dziedziczą po Object
+		</script>
+		<script type="text/javascript">
+			/* Identyfikacja tablic. Najlepszym sposobem na identyfikacje tablic jest metoda Array.isArray() zgodna z ECMAScript 5 */
+			var items = [];
+			console.log(Array.isArray(items));			// true
+		</script>
+		<script type="text/javascript">
+			/* Typy opakowujące: String, Number, Boolean. Tworzone są automatycznie gdy zmienna typu prostego traktowana jest jak obiekt. Obiekt jest tworzony na potrzeby tej jednej operacji (autoboxing) */
+			var name = "Nicholas";
+			var firstChar = name.charAt(0);
+			console.log(firstChar);             // "N"
+			// silnik JavaScript wykonuje takie operacje
+			var name = "Nicholas";
+			var temp = new String(name);
+			var firstChar = temp.charAt(0);
+			temp = null;
+			console.log(firstChar);             // "N"
+			// Poniższy kod wydaje się prawidłowy ale wynik jego działania już nie
+			var name = "Nicholas"; 
+			name.last = "Zakas";
+			console.log(name.last);           // undefined
+			// silnik JavaScriptu wykonuje takie operacje 
+			var name = "Nicholas"; 
+			var temp = new String(name);	// aby dodać właściwość tworzony jest obiekt
+			temp.last = "Zakas"; 
+			temp = null;					// tymczasowy obiekt zostaje zniszczony
+			var temp = new String(name);	// przy próbie odczytu właściwości obiekt tymczasowy jest tworzony na nowo
+			console.log(temp.last);			// undefined temp = null;
+		</script>
+		<script type="text/javascript">
+			/* Typy opakowujące zachowują się inaczej niż ich proste odpowiedniki */
+			var found = new Boolean(false);
+			if (found) {
+				console.log("Znaleziony");	// to zostanie wykonane
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
